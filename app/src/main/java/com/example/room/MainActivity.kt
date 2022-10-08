@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.room.Room
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,16 +20,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
-        database =
-            Room.databaseBuilder(
-                applicationContext,
-                ContactDatabase::class.java,
-                "contactDB"
-            )
-                .build()
+        database = ContactDatabase.getDatabase(this)
 
         GlobalScope.launch {
-            database.contactDao().insertContact(Contact(0, "John", "99999"))
+            database.contactDao()
+                .insertContact(Contact(0, "John", "99999", Date(), 1))
         }
 
     }
